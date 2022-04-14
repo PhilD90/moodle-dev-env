@@ -1,8 +1,15 @@
 ---
-- hosts: all
-  name: Deployment
+# - hosts: all
+#   name: Deployment
+#   remote_user: vagrant
+#   gather_facts: false
+#   tasks:
+#     - debug:
+#         var: ansible_facts
+
+- hosts: app01
   remote_user: vagrant
-  gather_facts: false
-  tasks:
-    - debug:
-        var: ansible_facts
+  gather_facts: true
+  roles:
+    - name: vm_postgres_setup
+      tags: vm_postgres_setup
