@@ -1,1 +1,6 @@
 ---
+postgresql_users:
+  - db: moodle
+    name: moodleuser
+    password: "{{ vault_postgresql_moodleuser_password }}"
+    priv: "ALL"

@@ -1,0 +1,23 @@
+---
+- name: Make sure /var/www exists
+  ansible.builtin.file:
+    path: /var/www
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: 0775
+
+- name: Install prerequisits
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    name:
+      - git
+    state: present
+
+- name: Clone Moodle
+  ansible.builtin.git:
+    repo: git://git.moodle.org/moodle.git 
+    dest: /var/www/moodle
+    version: MOODLE_310_STABLE

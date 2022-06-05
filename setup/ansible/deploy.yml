@@ -10,6 +10,11 @@
 - hosts: app01
   remote_user: vagrant
   gather_facts: true
+  become: true
   roles:
     - name: vm_postgres_setup
       tags: vm_postgres_setup
+    - name: vm_webserver_setup
+      tags: vm_webserver_setup
+    - name: vm_setup_moodle
+      tags: vm_setup_moodle

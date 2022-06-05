@@ -1,0 +1,42 @@
+---
+- name: Install prerequisits
+  become: true
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    name:
+      - apt-transport-https
+      - lsb-release
+      - ca-certificates
+      - curl
+      - openssl
+    state: present
+
+- name: Add sury.org PHP Apt Key
+  become: true
+  ansible.builtin.apt_key:
+    url: https://packages.sury.org/php/apt.gpg
+    state: present
+
+- name: Add sury.org PHP Repo
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb https://packages.sury.org/php/ {{ ansible_facts.lsb.codename }} main"
+
+- name: Install Apache, PHP
+  become: true
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    name:
+      - apache2
+      - php{{ php_version }}
+    state: present
+
+- name: Install Modules for Apache and PHP
+  become: true
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+    name: "{{ modules_apache_php }}"
+    state: present
